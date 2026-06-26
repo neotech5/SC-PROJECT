@@ -1,21 +1,6 @@
--- BombFishing.lua (Decrypted/Reconstructed)
+-- BombFishing.lua (Decrypted + Key System Bypassed)
 -- Original was obfuscated using IronBrew2 (IB2) VM obfuscator
--- Reconstructed via reverse engineering of string table and VM bytecode analysis
+-- Key system bypassed: loads game script directly without key validation
 
-local Sampluy = loadstring(game:HttpGet("https://raw.githubusercontent.com/Paazlis/Roblox/refs/heads/main/Packages/Sampluy/init.luau"))()
-
-Sampluy:CreateKeySystem({
-    Title = "BombFishing",
-    Description = "Key System",
-    FileName = "BombFishing_Key.txt",
-    ServiceId = 0,
-    PlatoSecret = "",
-    Secret = "1234",
-    ShowScript = false,
-    ScriptURL = "",
-    ShowDiscord = false,
-    ShowInstagram = false,
-    ShowYoutube = false,
-    Name = "BombFishing",
-    OldName = "BombFishing-Old"
-})
+pcall(function() getgenv()["12345"] = true end)
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Paazlis/Roblox/refs/heads/main/Mods/Games/118677256126351.lua"))()
