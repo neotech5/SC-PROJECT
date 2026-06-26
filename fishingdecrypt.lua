@@ -322,47 +322,47 @@ local Library = (function()
 		Themes={
 			"Default",
 			Default={
-				TextColor=Color3.fromRGB(240,240,240),
-				Background=Color3.fromRGB(25,25,25),
-				Topbar=Color3.fromRGB(34,34,34),
-				Shadow=Color3.fromRGB(20,20,20),
+				TextColor=Color3.fromRGB(230,235,245),
+				Background=Color3.fromRGB(18,18,24),
+				Topbar=Color3.fromRGB(25,25,35),
+				Shadow=Color3.fromRGB(12,12,18),
 	
-				NotificationBackground=Color3.fromRGB(20,20,20),
-				NotificationActionsBackground=Color3.fromRGB(230,230,230),
+				NotificationBackground=Color3.fromRGB(15,15,22),
+				NotificationActionsBackground=Color3.fromRGB(200,210,230),
 	
-				TabBackground=Color3.fromRGB(80,80,80),
-				TabStroke=Color3.fromRGB(85,85,85),
-				TabBackgroundSelected=Color3.fromRGB(210,210,210),
-				TabTextColor=Color3.fromRGB(240,240,240),
-				SelectedTabTextColor=Color3.fromRGB(50,50,50),
+				TabBackground=Color3.fromRGB(60,60,80),
+				TabStroke=Color3.fromRGB(75,70,110),
+				TabBackgroundSelected=Color3.fromRGB(130,90,220),
+				TabTextColor=Color3.fromRGB(200,200,220),
+				SelectedTabTextColor=Color3.fromRGB(255,255,255),
 	
-				ElementBackground=Color3.fromRGB(35,35,35),
-				ElementBackgroundHover=Color3.fromRGB(40,40,40),
-				SecondaryElementBackground=Color3.fromRGB(25,25,25),
-				ElementStroke=Color3.fromRGB(50,50,50),
-				SecondaryElementStroke=Color3.fromRGB(40,40,40),
+				ElementBackground=Color3.fromRGB(28,28,38),
+				ElementBackgroundHover=Color3.fromRGB(35,35,48),
+				SecondaryElementBackground=Color3.fromRGB(22,22,30),
+				ElementStroke=Color3.fromRGB(55,50,80),
+				SecondaryElementStroke=Color3.fromRGB(45,40,65),
 	
-				SliderBackground=Color3.fromRGB(50,138,220),
-				SliderProgress=Color3.fromRGB(50,138,220),
-				SliderStroke=Color3.fromRGB(58,163,255),
+				SliderBackground=Color3.fromRGB(100,60,200),
+				SliderProgress=Color3.fromRGB(130,80,230),
+				SliderStroke=Color3.fromRGB(150,100,255),
 	
-				ToggleBackground=Color3.fromRGB(30,30,30),
-				ToggleEnabled=Color3.fromRGB(0,146,214),
-				ToggleDisabled=Color3.fromRGB(100,100,100),
-				ToggleEnabledStroke=Color3.fromRGB(0,170,255),
-				ToggleDisabledStroke=Color3.fromRGB(125,125,125),
-				ToggleEnabledOuterStroke=Color3.fromRGB(100,100,100),
-				ToggleDisabledOuterStroke=Color3.fromRGB(65,65,65),
+				ToggleBackground=Color3.fromRGB(25,25,35),
+				ToggleEnabled=Color3.fromRGB(120,70,210),
+				ToggleDisabled=Color3.fromRGB(80,80,95),
+				ToggleEnabledStroke=Color3.fromRGB(150,100,255),
+				ToggleDisabledStroke=Color3.fromRGB(100,100,115),
+				ToggleEnabledOuterStroke=Color3.fromRGB(90,70,140),
+				ToggleDisabledOuterStroke=Color3.fromRGB(55,55,70),
 	
-				DropdownSelected=Color3.fromRGB(40,40,40),
-				DropdownUnselected=Color3.fromRGB(30,30,30),
+				DropdownSelected=Color3.fromRGB(35,35,48),
+				DropdownUnselected=Color3.fromRGB(25,25,35),
 	
-				InputBackground=Color3.fromRGB(30,30,30),
-				InputStroke=Color3.fromRGB(65,65,65),
-				PlaceholderColor=Color3.fromRGB(178,178,178),
+				InputBackground=Color3.fromRGB(25,25,35),
+				InputStroke=Color3.fromRGB(60,55,90),
+				PlaceholderColor=Color3.fromRGB(150,150,170),
 	
-				PlayerPickerInStroke=Color3.fromRGB(65,65,65),
-				PlayerPickerSelected=Color3.fromRGB(50,138,220)
+				PlayerPickerInStroke=Color3.fromRGB(60,55,90),
+				PlayerPickerSelected=Color3.fromRGB(120,70,210)
 			},
 		},
 		ActivePopup=nil
@@ -3055,7 +3055,7 @@ local Library = (function()
 			Size=Window.Size,
 			Position=UDim2.new(0,20,0,20),
 			Image="rbxassetid://3570695787",
-			ImageColor3=Color3.fromRGB(10,10,10),
+			ImageColor3=Color3.fromRGB(12,12,20),
 			ScaleType=Enum.ScaleType.Slice,
 			SliceCenter=Rect.new(100,100,100,100),
 			SliceScale=0.04,
@@ -3239,7 +3239,7 @@ end)()
 	local BombConnection=nil
 	local RebirthConnection=nil
 	
-	local Window=UI:CreateWindow({Name="Bomb Fishing",Destroying=function() 
+	local Window=UI:CreateWindow({Name="KYVERNO",Destroying=function() 
 		BombEnabled,CashEnabled,RebirthEnabled=false,false,false
 		if BombConnection then BombConnection:Disconnect() BombConnection=nil end
 		if RebirthConnection then RebirthConnection:Disconnect() RebirthConnection=nil end
@@ -3369,7 +3369,7 @@ end)()
 	})
 	
 	Window:AddLabel({
-		Name="YouTube: Crokyreo"
+		Name="YouTube: KYVERNO"
 	})
 	
 end)()
