@@ -628,13 +628,18 @@ local Library = (function()
 			options.Text=options.Text or options.Title or options.Name or options.Type
 			options.Callback=Missing("function",options.Callback,function() end)
 			
-			local inContact,title,tickboxOutline,changeFunc=false,nil,nil,nil
+			local inContact,title,changeFunc=false,nil,nil
 	
-			local main=Create("Frame",{
+			local main=Create("ImageLabel",{
 				Name=options.Type,
 				BackgroundTransparency=1,
 				BorderSizePixel=0,
-				Size=UDim2.new(1,0,0,30),
+				Size=UDim2.new(1,0,0,34),
+				Image="rbxassetid://3570695787",
+				ImageColor3=Color3.fromRGB(35,25,55),
+				ScaleType=Enum.ScaleType.Slice,
+				SliceCenter=Rect.new(100,100,100,100),
+				SliceScale=0.03,
 				Parent=Window.Container
 			})
 	
@@ -751,59 +756,45 @@ local Library = (function()
 				title=Create("TextLabel",{
 					Name="Title",
 					ZIndex=2,
-					AnchorPoint=Vector2.new(0.5,0.5),
-					Position=UDim2.new(0.5,0,0.5,0),
-					Size=UDim2.new(1,0,1,0),
+					AnchorPoint=Vector2.new(0,0.5),
+					Position=UDim2.new(0,10,0.5,0),
+					Size=UDim2.new(1,-60,1,0),
 					BackgroundTransparency=1,
 					BorderSizePixel=0,
-					Text=" "..options.Text,
-					TextColor3=Color3.fromRGB(255,255,255),
-					Font=Enum.Font.GothamBlack,
-					TextSize=12,
+					Text=options.Text,
+					TextColor3=Color3.fromRGB(220,215,240),
+					Font=Enum.Font.GothamBold,
+					TextSize=13,
 					TextXAlignment=Enum.TextXAlignment.Left,
 					Parent=main
 				})
 	
-				tickboxOutline=Create("ImageLabel",{
-					Position=UDim2.new(1,-6,0,4),
-					Size=UDim2.new(-1,10,1,-10),
-					SizeConstraint=Enum.SizeConstraint.RelativeYY,
+				local toggleTrack=Create("ImageLabel",{
+					Name="Track",
+					AnchorPoint=Vector2.new(1,0.5),
+					Position=UDim2.new(1,-8,0.5,0),
+					Size=UDim2.new(0,40,0,20),
 					BackgroundTransparency=1,
 					Image="rbxassetid://3570695787",
-					ImageColor3=options.Value and Color3.fromRGB(180,130,255) or Color3.fromRGB(90,65,130),
+					ImageColor3=options.Value and Color3.fromRGB(130,60,220) or Color3.fromRGB(50,35,70),
 					ScaleType=Enum.ScaleType.Slice,
 					SliceCenter=Rect.new(100,100,100,100),
-					SliceScale=0.02,
+					SliceScale=0.1,
 					Parent=main
 				})
 	
-				local tickboxInner=Create("ImageLabel",{
-					Position=UDim2.new(0,2,0,2),
-					Size=UDim2.new(1,-4,1,-4),
+				local toggleKnob=Create("ImageLabel",{
+					Name="Knob",
+					AnchorPoint=Vector2.new(0,0.5),
+					Position=options.Value and UDim2.new(1,-18,0.5,0) or UDim2.new(0,2,0.5,0),
+					Size=UDim2.new(0,16,0,16),
 					BackgroundTransparency=1,
 					Image="rbxassetid://3570695787",
-					ImageColor3=options.Value and Color3.fromRGB(150,80,255) or Color3.fromRGB(30,20,48),
+					ImageColor3=options.Value and Color3.fromRGB(255,255,255) or Color3.fromRGB(160,140,190),
 					ScaleType=Enum.ScaleType.Slice,
 					SliceCenter=Rect.new(100,100,100,100),
-					SliceScale=0.02,
-					Parent=tickboxOutline
-				})
-	
-				local checkmarkHolder=Create("Frame",{
-					Position=UDim2.new(0,4,0,4),
-					Size=options.Value and UDim2.new(1,-8,1,-8) or UDim2.new(0,0,1,-8),
-					BackgroundTransparency=1,
-					ClipsDescendants=true,
-					Parent=tickboxOutline
-				})
-	
-				local checkmark=Create("ImageLabel",{
-					Size=UDim2.new(1,0,1,0),
-					SizeConstraint=Enum.SizeConstraint.RelativeYY,
-					BackgroundTransparency=1,
-					Image="rbxassetid://4919148038",
-					ImageColor3=Color3.fromRGB(25,18,40),
-					Parent=checkmarkHolder
+					SliceScale=1,
+					Parent=toggleTrack
 				})
 				
 				changeFunc=function(value,callback)
@@ -813,12 +804,8 @@ local Library = (function()
 						if options.Flag then
 							Library.Flags[options.Flag]=value
 						end
-						checkmarkHolder:TweenSize(value and UDim2.new(1,-8,1,-8) or UDim2.new(0,0,1,-8),"Out","Quad",0.2,true)
-						Tween(tickboxInner,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{ImageColor3=value and Color3.fromRGB(150,80,255) or Color3.fromRGB(30,20,48)})
-						Tween(tickboxOutline,TweenInfo.new(value and 0.2 or 0.1,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{ImageColor3=value and Color3.fromRGB(180,130,255) or Color3.fromRGB(90,65,130)})
-						if not value then
-							Tween(tickboxOutline,TweenInfo.new(inContact and 0.2 or 0.1,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{ImageColor3=inContact and Color3.fromRGB(140,100,200) or Color3.fromRGB(90,65,130)})
-						end
+						Tween(toggleTrack,TweenInfo.new(0.25,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{ImageColor3=value and Color3.fromRGB(130,60,220) or Color3.fromRGB(50,35,70)})
+						Tween(toggleKnob,TweenInfo.new(0.25,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{Position=value and UDim2.new(1,-18,0.5,0) or UDim2.new(0,2,0.5,0),ImageColor3=value and Color3.fromRGB(255,255,255) or Color3.fromRGB(160,140,190)})
 						CallSafely(callback,value)
 					end
 				end
@@ -842,17 +829,12 @@ local Library = (function()
 				end
 				if input.UserInputType==Enum.UserInputType.MouseMovement then
 					inContact=true
-					if not options.Value and tickboxOutline~=nil then
-						Tween(tickboxOutline,TweenInfo.new(0.1,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{ImageColor3=Color3.fromRGB(140,100,200)})
-					end
 				end
 			end)
 	
 			local inputEnded=main.InputEnded:connect(function(input)
 				if input.UserInputType==Enum.UserInputType.MouseMovement then
-					if not options.Value and tickboxOutline~=nil then
-						Tween(tickboxOutline,TweenInfo.new(0.1,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{ImageColor3=Color3.fromRGB(90,65,130)})
-					end
+					inContact=false
 				end
 			end)
 	
@@ -1625,7 +1607,7 @@ local Library = (function()
 	
 			local displayFrame=Create("Frame",{
 				Name="DisplayFrame",
-				BackgroundColor3=Color3.fromRGB(200,200,200),
+				BackgroundColor3=Color3.fromRGB(180,160,220),
 				BackgroundTransparency=0,
 				BorderSizePixel=0,
 				Position=UDim2.new(0.171,0,0.095,0),
@@ -1648,10 +1630,10 @@ local Library = (function()
 			local setActive=function(active)
 				options.Active=active
 				checkmarkHolder:TweenSize(active and UDim2.new(1,-8,1,-8) or UDim2.new(0,0,1,-8),"Out","Quad",0.2,true)
-				Tween(tickboxInner,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{ImageColor3=active and Color3.fromRGB(255,255,255) or Color3.fromRGB(20,20,20)})
-				Tween(tickboxOutline,TweenInfo.new(active and 0.2 or 0.1,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{ImageColor3=active and Color3.fromRGB(255,255,255) or Color3.fromRGB(100,100,100)})
+				Tween(tickboxInner,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{ImageColor3=active and Color3.fromRGB(150,80,255) or Color3.fromRGB(30,20,48)})
+				Tween(tickboxOutline,TweenInfo.new(active and 0.2 or 0.1,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{ImageColor3=active and Color3.fromRGB(180,130,255) or Color3.fromRGB(90,65,130)})
 				if not active then
-					Tween(tickboxOutline,TweenInfo.new(inContact and 0.2 or 0.1,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{ImageColor3=inContact and Color3.fromRGB(140,140,140) or Color3.fromRGB(100,100,100)})
+					Tween(tickboxOutline,TweenInfo.new(inContact and 0.2 or 0.1,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{ImageColor3=inContact and Color3.fromRGB(140,100,200) or Color3.fromRGB(90,65,130)})
 				end
 			end
 	
@@ -3027,8 +3009,8 @@ local Library = (function()
 		Window.OldName=config.Name.."-Old"
 		Window.SaveName=Window.Name
 		Window.Text=config.Text or config.Title or config.Name or "Panel"
-		Window.MaxHeight=config.MaxHeight or 320
-		Window.Size=config.Size or UDim2.new(0,230,0,40)
+		Window.MaxHeight=config.MaxHeight or 400
+		Window.Size=config.Size or UDim2.new(0,280,0,50)
 		Window.Open=config.Open or true
 		Window.Destroying=config.Destroying or nil
 		
@@ -3058,7 +3040,7 @@ local Library = (function()
 			ImageColor3=Color3.fromRGB(30,20,50),
 			ScaleType=Enum.ScaleType.Slice,
 			SliceCenter=Rect.new(100,100,100,100),
-			SliceScale=0.04,
+			SliceScale=0.06,
 			ClipsDescendants=true,
 			Parent=gui
 		})
@@ -3075,21 +3057,54 @@ local Library = (function()
 	
 		local titleBar=Create("TextLabel",{
 			Name="Title",
-			Size=UDim2.new(1,0,0,40),
-			BackgroundTransparency=1,
+			Size=UDim2.new(1,0,0,48),
+			BackgroundColor3=Color3.fromRGB(40,25,70),
+			BackgroundTransparency=0,
 			BorderSizePixel=0,
 			Text=Window.Text,
 			TextColor3=Color3.fromRGB(255,255,255),
-			Font=Enum.Font.LuckiestGuy,
-			TextSize=12,
+			Font=Enum.Font.GothamBlack,
+			TextSize=16,
 			Parent=mainFrame
+		})
+
+		Create("UIGradient",{
+			Color=ColorSequence.new({
+				ColorSequenceKeypoint.new(0,Color3.fromRGB(100,40,180)),
+				ColorSequenceKeypoint.new(1,Color3.fromRGB(40,100,200))
+			}),
+			Parent=titleBar
+		})
+
+		Create("UICorner",{
+			CornerRadius=UDim.new(0,8),
+			Parent=titleBar
+		})
+
+		local accentLine=Create("Frame",{
+			Name="Accent",
+			Size=UDim2.new(1,0,0,2),
+			Position=UDim2.new(0,0,1,0),
+			BackgroundColor3=Color3.fromRGB(150,80,255),
+			BorderSizePixel=0,
+			Parent=titleBar
+		})
+
+		Create("UIGradient",{
+			Color=ColorSequence.new({
+				ColorSequenceKeypoint.new(0,Color3.fromRGB(150,80,255)),
+				ColorSequenceKeypoint.new(0.5,Color3.fromRGB(80,180,255)),
+				ColorSequenceKeypoint.new(1,Color3.fromRGB(150,80,255))
+			}),
+			Parent=accentLine
 		})
 	
 		local closeHolder=Create("Frame",{
 			Name="Close",
 			Position=UDim2.new(1,0,0,0),
-			Size=UDim2.new(-1,0,1,0),
-			SizeConstraint=Enum.SizeConstraint.RelativeYY,
+			Size=UDim2.new(0,40,0,40),
+			AnchorPoint=Vector2.new(1,0.5),
+			Position=UDim2.new(1,0,0.5,0),
 			BackgroundTransparency=1,
 			Parent=titleBar
 		})
@@ -3098,7 +3113,7 @@ local Library = (function()
 			Name="Icon",
 			AnchorPoint=Vector2.new(0.5,0.5),
 			Position=UDim2.new(0.5,0,0.5,0),
-			Size=UDim2.new(1,-Window.Size.Y.Offset-10,1,-Window.Size.Y.Offset-10),
+			Size=UDim2.new(0,16,0,16),
 			BackgroundTransparency=1,
 			Rotation=Window.Open and 90 or 180,
 			Image="rbxassetid://4918373417",
@@ -3109,9 +3124,9 @@ local Library = (function()
 	
 		local scrollFrame=Create("ScrollingFrame",{
 			Size=UDim2.new(1,0,0,0),
-			Position=UDim2.new(0,0,0,40),
+			Position=UDim2.new(0,0,0,52),
 			BackgroundTransparency=0,
-			BackgroundColor3=Color3.fromRGB(28,18,45),
+			BackgroundColor3=Color3.fromRGB(22,15,38),
 			BorderSizePixel=0,
 			ScrollBarThickness=4,
 			ScrollBarImageColor3=Color3.fromRGB(130,90,180),
@@ -3131,7 +3146,7 @@ local Library = (function()
 	
 		Create("UIListLayout",{
 			Parent=contentHolder,
-			Padding=UDim.new(0,6),
+			Padding=UDim.new(0,4),
 			HorizontalAlignment=Enum.HorizontalAlignment.Center,
 			SortOrder=Enum.SortOrder.LayoutOrder
 		})
