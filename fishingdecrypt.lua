@@ -3228,15 +3228,33 @@ local Library = (function()
 			end)
 		end
 
+		local function TapOrDrag(input,callback)
+			local startPos=input.Position
+			local conn
+			conn=input.Changed:Connect(function()
+				if input.UserInputState==Enum.UserInputState.End then
+					conn:Disconnect()
+					local delta=input.Position-startPos
+					if delta.Magnitude<6 then
+						callback()
+					end
+				end
+			end)
+		end
+
 		local inputBegan=closeHolder.InputBegan:connect(function(input)
 			if input.UserInputType==Enum.UserInputType.MouseButton1 or input.UserInputType==Enum.UserInputType.Touch then
-				ToggleWindow()
+				if Window.Open then
+					ToggleWindow()
+				else
+					TapOrDrag(input,ToggleWindow)
+				end
 			end
 		end)
 
 		mainFrame.InputBegan:connect(function(input)
 			if not Window.Open and (input.UserInputType==Enum.UserInputType.MouseButton1 or input.UserInputType==Enum.UserInputType.Touch) then
-				ToggleWindow()
+				TapOrDrag(input,ToggleWindow)
 			end
 		end)
 	
