@@ -3055,6 +3055,11 @@ local Library = (function()
 			end
 		end
 	
+		local mainCorner=Create("UICorner",{
+			CornerRadius=UDim.new(0,10),
+			Parent=mainFrame
+		})
+
 		local titleBar=Create("TextLabel",{
 			Name="Title",
 			Size=UDim2.new(1,0,0,48),
@@ -3153,23 +3158,42 @@ local Library = (function()
 	
 		local function UpdateWindowSize(animated)
 			local contentHeight=contentHolder.AbsoluteSize.Y
-			local targetMainSize,targetScrollSize
-	
+			local targetMainSize,targetScrollSize,targetCorner
+
 			if not Window.Open then
-				targetMainSize=Window.Size
+				targetMainSize=UDim2.new(0,50,0,50)
 				targetScrollSize=UDim2.new(1,0,0,0)
+				targetCorner=UDim.new(0,25)
 			else
 				local allowedContentHeight=math.min(contentHeight+6,Window.MaxHeight-Window.Size.Y.Offset)
 				targetMainSize=UDim2.new(Window.Size.X.Scale,Window.Size.X.Offset,Window.Size.Y.Scale,Window.Size.Y.Offset+allowedContentHeight)
 				targetScrollSize=UDim2.new(1,0,0,allowedContentHeight)
+				targetCorner=UDim.new(0,10)
 			end
-	
+
 			if animated then
-				Tween(mainFrame,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{Size=targetMainSize})
-				Tween(scrollFrame,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{Size=targetScrollSize})
+				Tween(mainFrame,TweenInfo.new(0.3,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{Size=targetMainSize})
+				Tween(scrollFrame,TweenInfo.new(0.3,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{Size=targetScrollSize})
+				Tween(mainCorner,TweenInfo.new(0.3,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{CornerRadius=targetCorner})
+				titleBar.ClipsDescendants=true
+				if not Window.Open then
+					Tween(titleBar,TweenInfo.new(0.3,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{TextTransparency=1})
+					Tween(accentLine,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{BackgroundTransparency=1})
+				else
+					Tween(titleBar,TweenInfo.new(0.3,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{TextTransparency=0})
+					Tween(accentLine,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{BackgroundTransparency=0})
+				end
 			else
 				mainFrame.Size=targetMainSize
 				scrollFrame.Size=targetScrollSize
+				mainCorner.CornerRadius=targetCorner
+				if not Window.Open then
+					titleBar.TextTransparency=1
+					accentLine.BackgroundTransparency=1
+				else
+					titleBar.TextTransparency=0
+					accentLine.BackgroundTransparency=0
+				end
 			end
 		end
 	
@@ -3178,11 +3202,33 @@ local Library = (function()
 			UpdateWindowSize(true)
 		end)
 	
+		local function ToggleWindow()
+			Window.Open=not Window.Open
+			Tween(close,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{Rotation=Window.Open and 90 or 180})
+			if Window.Open then
+				closeHolder.Position=UDim2.new(1,0,0.5,0)
+			else
+				closeHolder.AnchorPoint=Vector2.new(0.5,0.5)
+				closeHolder.Position=UDim2.new(0.5,0,0.5,0)
+			end
+			UpdateWindowSize(true)
+			if Window.Open then
+				task.delay(0.3,function()
+					closeHolder.AnchorPoint=Vector2.new(1,0.5)
+					closeHolder.Position=UDim2.new(1,0,0.5,0)
+				end)
+			end
+		end
+
 		local inputBegan=closeHolder.InputBegan:connect(function(input)
 			if input.UserInputType==Enum.UserInputType.MouseButton1 or input.UserInputType==Enum.UserInputType.Touch then
-				Window.Open=not Window.Open
-				Tween(close,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{Rotation=Window.Open and 90 or 180})
-				UpdateWindowSize(true)
+				ToggleWindow()
+			end
+		end)
+
+		mainFrame.InputBegan:connect(function(input)
+			if not Window.Open and (input.UserInputType==Enum.UserInputType.MouseButton1 or input.UserInputType==Enum.UserInputType.Touch) then
+				ToggleWindow()
 			end
 		end)
 	
