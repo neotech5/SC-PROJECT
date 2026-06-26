@@ -3106,7 +3106,6 @@ local Library = (function()
 	
 		local closeHolder=Create("Frame",{
 			Name="Close",
-			Position=UDim2.new(1,0,0,0),
 			Size=UDim2.new(0,40,0,40),
 			AnchorPoint=Vector2.new(1,0.5),
 			Position=UDim2.new(1,0,0.5,0),
@@ -3174,14 +3173,17 @@ local Library = (function()
 			if animated then
 				Tween(mainFrame,TweenInfo.new(0.3,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{Size=targetMainSize})
 				Tween(scrollFrame,TweenInfo.new(0.3,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{Size=targetScrollSize})
-				Tween(mainCorner,TweenInfo.new(0.3,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{CornerRadius=targetCorner})
-				titleBar.ClipsDescendants=true
+				mainCorner.CornerRadius=targetCorner
 				if not Window.Open then
+					titleBar.ClipsDescendants=true
 					Tween(titleBar,TweenInfo.new(0.3,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{TextTransparency=1})
 					Tween(accentLine,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{BackgroundTransparency=1})
 				else
 					Tween(titleBar,TweenInfo.new(0.3,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{TextTransparency=0})
 					Tween(accentLine,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{BackgroundTransparency=0})
+					task.delay(0.3,function()
+						titleBar.ClipsDescendants=false
+					end)
 				end
 			else
 				mainFrame.Size=targetMainSize
@@ -3190,9 +3192,11 @@ local Library = (function()
 				if not Window.Open then
 					titleBar.TextTransparency=1
 					accentLine.BackgroundTransparency=1
+					titleBar.ClipsDescendants=true
 				else
 					titleBar.TextTransparency=0
 					accentLine.BackgroundTransparency=0
+					titleBar.ClipsDescendants=false
 				end
 			end
 		end
@@ -3202,12 +3206,13 @@ local Library = (function()
 			UpdateWindowSize(true)
 		end)
 	
+		local isToggling=false
 		local function ToggleWindow()
+			if isToggling then return end
+			isToggling=true
 			Window.Open=not Window.Open
 			Tween(close,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{Rotation=Window.Open and 90 or 180})
-			if Window.Open then
-				closeHolder.Position=UDim2.new(1,0,0.5,0)
-			else
+			if not Window.Open then
 				closeHolder.AnchorPoint=Vector2.new(0.5,0.5)
 				closeHolder.Position=UDim2.new(0.5,0,0.5,0)
 			end
@@ -3218,6 +3223,9 @@ local Library = (function()
 					closeHolder.Position=UDim2.new(1,0,0.5,0)
 				end)
 			end
+			task.delay(0.35,function()
+				isToggling=false
+			end)
 		end
 
 		local inputBegan=closeHolder.InputBegan:connect(function(input)
