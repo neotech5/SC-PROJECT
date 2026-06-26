@@ -3387,45 +3387,27 @@ end)()
 		end
 	})
 	
-	local function FireTouch(hitPart,targetPart)
-		if firetouchinterest then
-			firetouchinterest(hitPart,targetPart,1)
-			task.wait()
-			firetouchinterest(hitPart,targetPart,0)
-		end
-	end
-	
-	local TouchPart=nil
-	local CollectToggle,TouchTargetSelect=nil,nil
-	
-	TouchTargetSelect=Window:AddSelect({
-		Name="Touch Cash Target",
-		Callback=function(target)
-			if string.find(string.lower(target.Name),"touch") and TouchTargetSelect.Active then
-				TouchTargetSelect.Active=false
-				TouchTargetSelect.Visible=false
-				TouchPart=target
-			end
-		end
-	})
-	
-	local WarningCashLabel=Window:AddLabel({Name="Please sets touch cash target first!",TextScaled=true,Visible=false})
-	
-	CollectToggle=Window:AddToggle({
-		Name="Collect Cash", 
+	Window:AddToggle({
+		Name="Collect Cash",
 		Value=false,
 		Callback=function(value)
-			if not TouchPart then WarningCashLabel.Visible=true CashEnabled=false CollectToggle:Replace(false) task.wait(2) WarningCashLabel.Visible=false return end
 			CashEnabled=value
 			if value then
 				task.spawn(function()
 					while CashEnabled do
-						task.wait()
-						if not TouchPart then WarningCashLabel.Visible=true CashEnabled=false CollectToggle:Replace(false) task.wait(2) WarningCashLabel.Visible=false break end
-						if TouchPart then
-							FireTouch(LocalPlayer.Character.Head,TouchPart)
-							task.wait(1)
+						local character=LocalPlayer.Character
+						local hrp=character and character:FindFirstChild("HumanoidRootPart")
+						if hrp and firetouchinterest then
+							for _,v in pairs(workspace:GetDescendants()) do
+								if not CashEnabled then break end
+								if v:IsA("BasePart") and v~=hrp and v.Parent~=character and v:FindFirstChildOfClass("TouchInterest") then
+									firetouchinterest(hrp,v,1)
+									task.wait()
+									firetouchinterest(hrp,v,0)
+								end
+							end
 						end
+						task.wait(0.5)
 					end
 				end)
 			end
