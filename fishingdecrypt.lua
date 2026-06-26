@@ -406,7 +406,7 @@ local Library = (function()
 				BackgroundTransparency=1,
 				BorderSizePixel=0,
 				Text=options.Text,
-				TextColor3=Color3.fromRGB(180,180,190),
+				TextColor3=Color3.fromRGB(200,185,230),
 				Font=Enum.Font.GothamBlack,
 				TextSize=12,
 				TextXAlignment=Enum.TextXAlignment.Center,
@@ -530,7 +530,7 @@ local Library = (function()
 				BackgroundTransparency=1,
 				BorderSizePixel=0,
 				Image="rbxassetid://3570695787",
-				ImageColor3=Color3.fromRGB(40,40,40),
+				ImageColor3=Color3.fromRGB(45,30,65),
 				ScaleType=Enum.ScaleType.Slice,
 				SliceCenter=Rect.new(100,100,100,100),
 				SliceScale=0.02,
@@ -547,12 +547,12 @@ local Library = (function()
 			local inputBegan=main.InputBegan:Connect(function(input)
 				if input.UserInputType==Enum.UserInputType.MouseButton1 or input.UserInputType==Enum.UserInputType.Touch then
 					clicking=true
-					Tween(round,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{ImageColor3=Color3.fromRGB(255,65,65)})
+					Tween(round,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{ImageColor3=Color3.fromRGB(170,80,255)})
 					CallSafely(options.Callback)
 				end
 				if input.UserInputType==Enum.UserInputType.MouseMovement then
 					inContact=true
-					Tween(round,TweenInfo.new(0.1,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{ImageColor3=Color3.fromRGB(60,60,60)})
+					Tween(round,TweenInfo.new(0.1,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{ImageColor3=Color3.fromRGB(70,50,100)})
 				end
 			end)
 	
@@ -560,15 +560,15 @@ local Library = (function()
 				if input.UserInputType==Enum.UserInputType.MouseButton1 or input.UserInputType==Enum.UserInputType.Touch then
 					clicking=false
 					if inContact then
-						Tween(round,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{ImageColor3=Color3.fromRGB(60,60,60)})
+						Tween(round,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{ImageColor3=Color3.fromRGB(70,50,100)})
 					else
-						Tween(round,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{ImageColor3=Color3.fromRGB(40,40,40)})
+						Tween(round,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{ImageColor3=Color3.fromRGB(45,30,65)})
 					end
 				end
 				if input.UserInputType==Enum.UserInputType.MouseMovement then
 					inContact=false
 					if not clicking then
-						Tween(round,TweenInfo.new(0.1,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{ImageColor3=Color3.fromRGB(40,40,40)})
+						Tween(round,TweenInfo.new(0.1,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{ImageColor3=Color3.fromRGB(45,30,65)})
 					end
 				end
 			end)
@@ -662,7 +662,7 @@ local Library = (function()
 					BackgroundTransparency=1,
 					BorderSizePixel=0,
 					Image="rbxassetid://3570695787",
-					ImageColor3=Color3.fromRGB(40,40,40),
+					ImageColor3=Color3.fromRGB(45,30,65),
 					ScaleType=Enum.ScaleType.Slice,
 					SliceCenter=Rect.new(100,100,100,100),
 					SliceScale=0.02,
@@ -677,7 +677,7 @@ local Library = (function()
 							Library.Flags[options.Flag]=value
 						end
 						title.Text=options.Name .. ": " .. (value and "ON" or "OFF")
-						Tween(round,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{ImageColor3=value and Color3.fromRGB(60,200,60) or Color3.fromRGB(200,60,60)})
+						Tween(round,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{ImageColor3=value and Color3.fromRGB(150,80,255) or Color3.fromRGB(70,40,90)})
 						CallSafely(callback,value)
 					end
 				end
@@ -710,7 +710,7 @@ local Library = (function()
 					Name="Indicator",
 					Size=UDim2.new(0,38,0,18),
 					Position=UDim2.new(1,-39,0.5,-9),
-					BackgroundColor3=options.Value and Color3.fromRGB(60,200,60) or Color3.fromRGB(75,75,85),
+					BackgroundColor3=options.Value and Color3.fromRGB(150,80,255) or Color3.fromRGB(55,40,75),
 					BorderSizePixel=0,
 					Parent=main
 				})
@@ -733,7 +733,7 @@ local Library = (function()
 						if options.Flag then
 							Library.Flags[options.Flag]=value
 						end
-						local targetColor=value and Color3.fromRGB(60,200,60) or Color3.fromRGB(75,75,85)
+						local targetColor=value and Color3.fromRGB(150,80,255) or Color3.fromRGB(55,40,75)
 						Tween(indicator,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{BackgroundColor3=targetColor})
 						indicatorText.Text=value and "ON" or "OFF"
 						CallSafely(callback,value)
@@ -770,7 +770,7 @@ local Library = (function()
 					SizeConstraint=Enum.SizeConstraint.RelativeYY,
 					BackgroundTransparency=1,
 					Image="rbxassetid://3570695787",
-					ImageColor3=options.Value and Color3.fromRGB(255,255,255) or Color3.fromRGB(100,100,100),
+					ImageColor3=options.Value and Color3.fromRGB(180,130,255) or Color3.fromRGB(90,65,130),
 					ScaleType=Enum.ScaleType.Slice,
 					SliceCenter=Rect.new(100,100,100,100),
 					SliceScale=0.02,
@@ -782,7 +782,7 @@ local Library = (function()
 					Size=UDim2.new(1,-4,1,-4),
 					BackgroundTransparency=1,
 					Image="rbxassetid://3570695787",
-					ImageColor3=options.Value and Color3.fromRGB(255,255,255) or Color3.fromRGB(20,20,20),
+					ImageColor3=options.Value and Color3.fromRGB(150,80,255) or Color3.fromRGB(30,20,48),
 					ScaleType=Enum.ScaleType.Slice,
 					SliceCenter=Rect.new(100,100,100,100),
 					SliceScale=0.02,
@@ -802,7 +802,7 @@ local Library = (function()
 					SizeConstraint=Enum.SizeConstraint.RelativeYY,
 					BackgroundTransparency=1,
 					Image="rbxassetid://4919148038",
-					ImageColor3=Color3.fromRGB(20,20,20),
+					ImageColor3=Color3.fromRGB(25,18,40),
 					Parent=checkmarkHolder
 				})
 				
@@ -814,10 +814,10 @@ local Library = (function()
 							Library.Flags[options.Flag]=value
 						end
 						checkmarkHolder:TweenSize(value and UDim2.new(1,-8,1,-8) or UDim2.new(0,0,1,-8),"Out","Quad",0.2,true)
-						Tween(tickboxInner,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{ImageColor3=value and Color3.fromRGB(255,255,255) or Color3.fromRGB(20,20,20)})
-						Tween(tickboxOutline,TweenInfo.new(value and 0.2 or 0.1,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{ImageColor3=value and Color3.fromRGB(255,255,255) or Color3.fromRGB(100,100,100)})
+						Tween(tickboxInner,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{ImageColor3=value and Color3.fromRGB(150,80,255) or Color3.fromRGB(30,20,48)})
+						Tween(tickboxOutline,TweenInfo.new(value and 0.2 or 0.1,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{ImageColor3=value and Color3.fromRGB(180,130,255) or Color3.fromRGB(90,65,130)})
 						if not value then
-							Tween(tickboxOutline,TweenInfo.new(inContact and 0.2 or 0.1,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{ImageColor3=inContact and Color3.fromRGB(140,140,140) or Color3.fromRGB(100,100,100)})
+							Tween(tickboxOutline,TweenInfo.new(inContact and 0.2 or 0.1,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{ImageColor3=inContact and Color3.fromRGB(140,100,200) or Color3.fromRGB(90,65,130)})
 						end
 						CallSafely(callback,value)
 					end
@@ -843,7 +843,7 @@ local Library = (function()
 				if input.UserInputType==Enum.UserInputType.MouseMovement then
 					inContact=true
 					if not options.Value and tickboxOutline~=nil then
-						Tween(tickboxOutline,TweenInfo.new(0.1,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{ImageColor3=Color3.fromRGB(140,140,140)})
+						Tween(tickboxOutline,TweenInfo.new(0.1,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{ImageColor3=Color3.fromRGB(140,100,200)})
 					end
 				end
 			end)
@@ -851,7 +851,7 @@ local Library = (function()
 			local inputEnded=main.InputEnded:connect(function(input)
 				if input.UserInputType==Enum.UserInputType.MouseMovement then
 					if not options.Value and tickboxOutline~=nil then
-						Tween(tickboxOutline,TweenInfo.new(0.1,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{ImageColor3=Color3.fromRGB(100,100,100)})
+						Tween(tickboxOutline,TweenInfo.new(0.1,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{ImageColor3=Color3.fromRGB(90,65,130)})
 					end
 				end
 			end)
@@ -900,7 +900,7 @@ local Library = (function()
 			local main=Create("Frame",{
 				Name=options.Type,
 				Size=UDim2.new(1,0,0,36),
-				BackgroundColor3=Color3.fromRGB(45,45,52),
+				BackgroundColor3=Color3.fromRGB(42,30,65),
 				BackgroundTransparency=0,
 				BorderSizePixel=0,
 				Parent=Window.Container
@@ -1032,7 +1032,7 @@ local Library = (function()
 			options.Max=options.Range[2]
 			options.Increment=Missing("number",options.Increment,options.Min)
 			options.Value=Missing("number",options.Value,options.Min)
-			options.FillColor3=options.FillColor3 or Color3.fromRGB(255,65,65)
+			options.FillColor3=options.FillColor3 or Color3.fromRGB(140,70,230)
 			options.Callback=Missing("function",options.Callback,function() end)
 			options.SaveValue=options.Value
 			local cleanFunc=nil
@@ -1068,7 +1068,7 @@ local Library = (function()
 	
 				track=Create("Frame",{
 					Name="Track",
-					BackgroundColor3=Color3.fromRGB(30,30,30),
+					BackgroundColor3=Color3.fromRGB(35,25,55),
 					BorderSizePixel=0,
 					Size=UDim2.new(1,0,0,10),
 					Position=UDim2.new(0,0,0,25),
@@ -1077,7 +1077,7 @@ local Library = (function()
 	
 				fill=Create("Frame",{
 					Name="Fill",
-					BackgroundColor3=Color3.fromRGB(60,60,60),
+					BackgroundColor3=Color3.fromRGB(65,45,95),
 					Size=UDim2.new((options.Value-options.Min) / (options.Max-options.Min),0,1,0),
 					BorderSizePixel=0,
 					Parent=track
@@ -1090,7 +1090,7 @@ local Library = (function()
 					SizeConstraint=Enum.SizeConstraint.RelativeYY,
 					BackgroundTransparency=1,
 					Image="rbxassetid://3570695787",
-					ImageColor3=Color3.fromRGB(60,60,60),
+					ImageColor3=Color3.fromRGB(65,45,95),
 					ScaleType=Enum.ScaleType.Slice,
 					SliceCenter=Rect.new(100,100,100,100),
 					SliceScale=1,
@@ -1137,16 +1137,16 @@ local Library = (function()
 	
 				dragEnd=uiDragDetector.DragEnd:Connect(function(inputPosition)
 					sliding=false
-					Tween(fill,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{BackgroundColor3=Color3.fromRGB(60,60,60)})
-					Tween(handle,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{Size=UDim2.new(0,0,0,0),ImageColor3=Color3.fromRGB(60,60,60)})
+					Tween(fill,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{BackgroundColor3=Color3.fromRGB(65,45,95)})
+					Tween(handle,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{Size=UDim2.new(0,0,0,0),ImageColor3=Color3.fromRGB(65,45,95)})
 				end)
 	
 				inputBegan=main.InputBegan:connect(function(input)
 					if input.UserInputType==Enum.UserInputType.MouseMovement then
 						inContact=true
 						if not sliding then
-							Tween(fill,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{BackgroundColor3=Color3.fromRGB(100,100,100)})
-							Tween(handle,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{Size=UDim2.new(1.8,0,1.8,0),ImageColor3=Color3.fromRGB(100,100,100)})
+							Tween(fill,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{BackgroundColor3=Color3.fromRGB(110,75,160)})
+							Tween(handle,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{Size=UDim2.new(1.8,0,1.8,0),ImageColor3=Color3.fromRGB(110,75,160)})
 						end
 					end
 				end)
@@ -1155,8 +1155,8 @@ local Library = (function()
 					if input.UserInputType==Enum.UserInputType.MouseMovement then
 						inContact=false
 						if not sliding then
-							Tween(fill,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{BackgroundColor3=Color3.fromRGB(60,60,60)})
-							Tween(handle,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{Size=UDim2.new(0,0,0,0),ImageColor3=Color3.fromRGB(60,60,60)})
+							Tween(fill,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{BackgroundColor3=Color3.fromRGB(65,45,95)})
+							Tween(handle,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{Size=UDim2.new(0,0,0,0),ImageColor3=Color3.fromRGB(65,45,95)})
 						end
 					end
 				end)
@@ -1191,7 +1191,7 @@ local Library = (function()
 					Size=UDim2.new(1,-20,0,5),
 					BackgroundTransparency=1,
 					Image="rbxassetid://3570695787",
-					ImageColor3=Color3.fromRGB(30,30,30),
+					ImageColor3=Color3.fromRGB(35,25,55),
 					ScaleType=Enum.ScaleType.Slice,
 					SliceCenter=Rect.new(100,100,100,100),
 					SliceScale=0.02,
@@ -1202,7 +1202,7 @@ local Library = (function()
 					Name="Fill",
 					BackgroundTransparency=1,
 					Image="rbxassetid://3570695787",
-					ImageColor3=Color3.fromRGB(60,60,60),
+					ImageColor3=Color3.fromRGB(65,45,95),
 					ScaleType=Enum.ScaleType.Slice,
 					SliceCenter=Rect.new(100,100,100,100),
 					SliceScale=0.02,
@@ -1216,7 +1216,7 @@ local Library = (function()
 					SizeConstraint=Enum.SizeConstraint.RelativeYY,
 					BackgroundTransparency=1,
 					Image="rbxassetid://3570695787",
-					ImageColor3=Color3.fromRGB(60,60,60),
+					ImageColor3=Color3.fromRGB(65,45,95),
 					ScaleType=Enum.ScaleType.Slice,
 					SliceCenter=Rect.new(100,100,100,100),
 					SliceScale=1,
@@ -1229,7 +1229,7 @@ local Library = (function()
 					Size=UDim2.new(0,-60,0,18),
 					BackgroundTransparency=1,
 					Image="rbxassetid://3570695787",
-					ImageColor3=Color3.fromRGB(40,40,40),
+					ImageColor3=Color3.fromRGB(45,30,65),
 					ScaleType=Enum.ScaleType.Slice,
 					SliceCenter=Rect.new(100,100,100,100),
 					SliceScale=0.02,
@@ -1270,16 +1270,16 @@ local Library = (function()
 	
 				dragEnd=uiDragDetector.DragEnd:Connect(function(inputPosition)
 					sliding=false
-					Tween(fill,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{ImageColor3=Color3.fromRGB(60,60,60)})
-					Tween(handle,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{Size=UDim2.new(0,0,0,0),ImageColor3=Color3.fromRGB(60,60,60)})
+					Tween(fill,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{ImageColor3=Color3.fromRGB(65,45,95)})
+					Tween(handle,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{Size=UDim2.new(0,0,0,0),ImageColor3=Color3.fromRGB(65,45,95)})
 				end)
 				
 				inputBegan=main.InputBegan:connect(function(input)
 					if input.UserInputType==Enum.UserInputType.MouseMovement then
 						inContact=true
 						if not sliding then
-							Tween(fill,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{ImageColor3=Color3.fromRGB(100,100,100)})
-							Tween(handle,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{Size=UDim2.new(2.8,0,2.8,0),ImageColor3=Color3.fromRGB(100,100,100)})
+							Tween(fill,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{ImageColor3=Color3.fromRGB(110,75,160)})
+							Tween(handle,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{Size=UDim2.new(2.8,0,2.8,0),ImageColor3=Color3.fromRGB(110,75,160)})
 						end
 					end
 				end)
@@ -1289,8 +1289,8 @@ local Library = (function()
 						inContact=false
 						inputBox:ReleaseFocus()
 						if not sliding then
-							Tween(fill,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{ImageColor3=Color3.fromRGB(60,60,60)})
-							Tween(handle,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{Size=UDim2.new(0,0,0,0),ImageColor3=Color3.fromRGB(60,60,60)})
+							Tween(fill,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{ImageColor3=Color3.fromRGB(65,45,95)})
+							Tween(handle,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{Size=UDim2.new(0,0,0,0),ImageColor3=Color3.fromRGB(65,45,95)})
 						end
 					end
 				end)
@@ -1304,7 +1304,7 @@ local Library = (function()
 						newValue=tonumber(inputBox.Text)
 					end
 					newValue=newValue or options.Value
-					Tween(handle,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{Size=UDim2.new(0,0,0,0),ImageColor3=Color3.fromRGB(60,60,60)})
+					Tween(handle,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{Size=UDim2.new(0,0,0,0),ImageColor3=Color3.fromRGB(65,45,95)})
 					options:Set(newValue)
 				end)
 	
@@ -3055,7 +3055,7 @@ local Library = (function()
 			Size=Window.Size,
 			Position=UDim2.new(0,20,0,20),
 			Image="rbxassetid://3570695787",
-			ImageColor3=Color3.fromRGB(12,12,20),
+			ImageColor3=Color3.fromRGB(30,20,50),
 			ScaleType=Enum.ScaleType.Slice,
 			SliceCenter=Rect.new(100,100,100,100),
 			SliceScale=0.04,
@@ -3111,10 +3111,10 @@ local Library = (function()
 			Size=UDim2.new(1,0,0,0),
 			Position=UDim2.new(0,0,0,40),
 			BackgroundTransparency=0,
-			BackgroundColor3=Color3.fromRGB(20,20,20),
+			BackgroundColor3=Color3.fromRGB(28,18,45),
 			BorderSizePixel=0,
 			ScrollBarThickness=4,
-			ScrollBarImageColor3=Color3.fromRGB(100,100,110),
+			ScrollBarImageColor3=Color3.fromRGB(130,90,180),
 			ClipsDescendants=true,
 			CanvasSize=UDim2.new(0,0,0,0),
 			Parent=mainFrame
