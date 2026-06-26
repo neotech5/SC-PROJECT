@@ -3387,7 +3387,28 @@ end)()
 		end
 	})
 	
-	Window:AddToggle({
+	local function FireTouch(hitPart,targetPart)
+		if firetouchinterest then
+			firetouchinterest(hitPart,targetPart,1)
+			task.wait()
+			firetouchinterest(hitPart,targetPart,0)
+		end
+	end
+
+	local TouchPart=nil
+	local CollectToggle,TouchTargetSelect=nil,nil
+
+	TouchTargetSelect=Window:AddSelect({
+		Name="Touch Cash Target",
+		Callback=function(target)
+			if target and target:IsA("BasePart") and TouchTargetSelect.Active then
+				TouchTargetSelect.Active=false
+				TouchPart=target
+			end
+		end
+	})
+
+	CollectToggle=Window:AddToggle({
 		Name="Collect Cash",
 		Value=false,
 		Callback=function(value)
@@ -3395,19 +3416,23 @@ end)()
 			if value then
 				task.spawn(function()
 					while CashEnabled do
-						local character=LocalPlayer.Character
-						local hrp=character and character:FindFirstChild("HumanoidRootPart")
-						if hrp and firetouchinterest then
-							for _,v in pairs(workspace:GetDescendants()) do
-								if not CashEnabled then break end
-								if v:IsA("BasePart") and v~=hrp and v.Parent~=character and v:FindFirstChildOfClass("TouchInterest") then
-									firetouchinterest(hrp,v,1)
-									task.wait()
-									firetouchinterest(hrp,v,0)
+						pcall(function()
+							local character=LocalPlayer.Character
+							if not character then return end
+							local head=character:FindFirstChild("Head")
+							if not head then return end
+							if TouchPart and TouchPart.Parent then
+								FireTouch(head,TouchPart)
+							else
+								for _,v in pairs(workspace:GetDescendants()) do
+									if not CashEnabled then break end
+									if v:IsA("BasePart") and v.Parent and not v:IsDescendantOf(character) and v:FindFirstChildOfClass("TouchInterest") then
+										FireTouch(head,v)
+									end
 								end
 							end
-						end
-						task.wait(0.5)
+						end)
+						task.wait(1)
 					end
 				end)
 			end
