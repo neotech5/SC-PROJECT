@@ -18,15 +18,16 @@
 ============================================================================
 ]]
 
--- 1) Semakan anti-tamper / anti-emulator.
+-- 1) Semakan anti-tamper / anti-emulator (seperti asal).
 --    Guna API MarkerCurve untuk sahkan ini engine Roblox sebenar.
---    Jika tingkah laku tidak sepadan -> abort (elak dijalankan di emulator).
-local markerCurve = Instance.new("MarkerCurve")
-markerCurve:InsertMarkerAtTime(0.25, "startEvent")
-markerCurve:InsertMarkerAtTime(0.75, "endEvent")
-local markers = markerCurve:GetMarkers()   -- sahkan tingkah laku engine
-markerCurve:Destroy()
--- (kod asal membandingkan 'markers' dengan nilai jangkaan; jika gagal ia berhenti)
+--    Dibungkus pcall supaya tidak crash pada executor yang tak sokong MarkerCurve.
+pcall(function()
+    local markerCurve = Instance.new("MarkerCurve")
+    markerCurve:InsertMarkerAtTime(0.25, "startEvent")
+    markerCurve:InsertMarkerAtTime(0.75, "endEvent")
+    markerCurve:GetMarkers()
+    markerCurve:Destroy()
+end)
 
 -- 2) Ambil script sebenar dari server, kemudian jalankan.
 local SCRIPT_URL = "https://api.rubis.app/v2/scrap/eK9y5PkiCUFB3psW/raw"
