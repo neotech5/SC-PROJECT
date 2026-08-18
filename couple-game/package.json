@@ -1,0 +1,25 @@
+{
+  "name": "lovelink-couple-game",
+  "version": "1.0.0",
+  "description": "Game multiplayer online untuk pasangan couple, jalan di browser HP",
+  "main": "server.js",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "lint": "eslint .",
+    "test": "node test/smoke.js"
+  },
+  "dependencies": {
+    "express": "4.19.2",
+    "socket.io": "4.7.5"
+  },
+  "devDependencies": {
+    "eslint": "8.57.0",
+    "socket.io-client": "4.7.5"
+  },
+  "license": "MIT"
+}

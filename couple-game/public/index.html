@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#ff5f8f" />
+  <title>LoveLink — Game Couple Online</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💞</text></svg>" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="toast" class="toast" hidden></div>
+
+  <!-- HOME -->
+  <section id="view-home" class="view active">
+    <div class="hero">
+      <div class="hero-emoji">💞</div>
+      <h1>LoveLink</h1>
+      <p class="tagline">Game online buat kamu &amp; pasangan. Cukup 1 kode room, main bareng dari HP masing-masing.</p>
+    </div>
+
+    <div class="card">
+      <label for="name">Nama panggilan kamu</label>
+      <input id="name" type="text" maxlength="16" placeholder="mis. Sayang" autocomplete="nickname" />
+
+      <button id="btn-create" class="btn primary">Buat Room Baru</button>
+
+      <div class="divider"><span>atau</span></div>
+
+      <label for="code">Punya kode dari pasangan?</label>
+      <div class="row">
+        <input id="code" type="text" maxlength="4" placeholder="KODE" autocapitalize="characters" inputmode="text" />
+        <button id="btn-join" class="btn ghost">Gabung</button>
+      </div>
+      <p id="home-error" class="error" hidden></p>
+    </div>
+
+    <ul class="features">
+      <li>💌 <b>Seberapa Kenal Kamu?</b> tebak jawaban pasangan</li>
+      <li>🎲 <b>Truth or Dare</b> versi couple</li>
+      <li>💓 <b>Sinkron Hati</b> tap bareng, uji kekompakan</li>
+    </ul>
+  </section>
+
+  <!-- ROOM -->
+  <section id="view-room" class="view">
+    <header class="topbar">
+      <button id="btn-back" class="icon-btn" title="Kembali ke menu">‹</button>
+      <div class="room-code">
+        <span class="label">KODE ROOM</span>
+        <strong id="room-code">----</strong>
+      </div>
+      <button id="btn-share" class="icon-btn" title="Bagikan kode">⇪</button>
+    </header>
+
+    <div class="players">
+      <div class="player" id="player-you"><span class="avatar">🐻</span><span class="pname">Kamu</span><span class="pscore">0</span></div>
+      <div class="love-meter"><span id="love-count">0</span><small>love point</small></div>
+      <div class="player" id="player-partner"><span class="avatar">❓</span><span class="pname">Menunggu…</span><span class="pscore">0</span></div>
+    </div>
+
+    <main id="stage"></main>
+
+    <div id="chat" class="chat closed">
+      <button id="chat-toggle" class="chat-toggle">💬 Chat <span id="chat-badge" class="badge" hidden>•</span></button>
+      <div class="chat-body">
+        <div id="chat-log" class="chat-log"></div>
+        <form id="chat-form" class="chat-form">
+          <input id="chat-input" type="text" maxlength="300" placeholder="Tulis pesan manis…" autocomplete="off" />
+          <button class="btn primary small" type="submit">Kirim</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
