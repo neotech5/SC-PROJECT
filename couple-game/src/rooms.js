@@ -205,8 +205,10 @@ class RoomStore {
           correct,
         };
       });
+      const bothCorrect = detail.length === MAX_PLAYERS && detail.every((d) => d.correct);
+      if (bothCorrect) room.love += 2;
       room.quiz.phase = 'reveal';
-      room.quiz.result = { question: question.q, detail, bothCorrect: detail.every((d) => d.correct) };
+      room.quiz.result = { question: question.q, detail, bothCorrect };
     }
     return room;
   }

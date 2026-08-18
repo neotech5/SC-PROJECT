@@ -56,6 +56,7 @@ async function main() {
   const reveal = await a.waitFor((s) => s.quiz && s.quiz.phase === 'reveal', 'reveal kuis');
   assert.strictEqual(reveal.quiz.result.detail.length, 2, 'dua hasil tebakan');
   assert.ok(reveal.quiz.result.detail.every((d) => d.correct), 'kedua tebakan benar');
+  assert.strictEqual(reveal.love, 2, 'kompak menambah 2 love point');
   a.emit('quiz:next');
   await a.waitFor((s) => s.quiz && s.quiz.phase === 'answer' && s.quiz.round === 2, 'ronde 2');
 
