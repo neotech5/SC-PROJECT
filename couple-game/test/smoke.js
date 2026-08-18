@@ -92,7 +92,7 @@ async function main() {
   a.close();
   b.close();
   await new Promise((resolve) => server.close(resolve));
-  process.stdout.write('SMOKE TEST OK: room, kuis, truth or dare, sinkron hati, chat\n');
+  process.stdout.write('SMOKE TEST OK: bilik, kuiz, truth or dare, seirama hati, chat\n');
   process.exit(0);
 }
 

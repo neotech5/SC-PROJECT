@@ -40,7 +40,7 @@ io.on('connection', (socket) => {
   };
 
   socket.on('room:create', ({ name } = {}, ack) => {
-    const playerName = cleanName(name) || 'Kamu';
+    const playerName = cleanName(name) || 'Kekasih';
     const room = store.createRoom({ id: socket.id, name: playerName });
     socket.data.code = room.code;
     socket.join(room.code);
@@ -49,7 +49,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('room:join', ({ code, name } = {}, ack) => {
-    const playerName = cleanName(name) || 'Pasangan';
+    const playerName = cleanName(name) || 'Kekasih';
     const result = store.joinRoom(code, { id: socket.id, name: playerName });
     if (result.error) {
       if (typeof ack === 'function') ack({ ok: false, error: result.error });
@@ -58,7 +58,7 @@ io.on('connection', (socket) => {
     socket.data.code = result.room.code;
     socket.join(result.room.code);
     if (typeof ack === 'function') ack({ ok: true, code: result.room.code });
-    io.to(result.room.code).emit('toast', { text: `${playerName} masuk ke room 💕` });
+    io.to(result.room.code).emit('toast', { text: `${playerName} telah masuk bilik 💕` });
     broadcast(result.room.code);
   });
 
@@ -116,7 +116,7 @@ io.on('connection', (socket) => {
     if (!code) return;
     const room = store.leaveRoom(code, socket.id);
     if (!room) return;
-    io.to(code).emit('toast', { text: 'Pasangan kamu terputus, tunggu dia join lagi ya.' });
+    io.to(code).emit('toast', { text: 'Pasangan awak terputus, tunggu dia masuk semula ya.' });
     broadcast(code);
   });
 });
@@ -125,7 +125,7 @@ setInterval(() => store.sweep(), 10 * 60 * 1000).unref();
 
 if (require.main === module) {
   server.listen(PORT, '0.0.0.0', () => {
-    process.stdout.write(`LoveLink jalan di http://localhost:${PORT}\n`);
+    process.stdout.write(`LoveLink berjalan di http://localhost:${PORT}\n`);
   });
 }
 
