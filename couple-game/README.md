@@ -1,57 +1,57 @@
-# LoveLink 💞 — Game Multiplayer Online untuk Pasangan
+# LoveLink 💞 — Permainan Multiplayer Online untuk Pasangan
 
-Game web realtime untuk 2 orang (pasangan couple). Dibuka langsung di browser HP,
-tanpa install apa pun: satu orang buat room, pasangan gabung pakai kode 4 karakter.
+Permainan web realtime untuk 2 orang (pasangan). Boleh dibuka terus dalam pelayar telefon,
+tanpa perlu pasang apa-apa: seorang buka bilik, pasangan masuk guna kod 4 aksara.
 
-## Mode Permainan
+## Mod Permainan
 
-| Mode | Cara main |
+| Mod | Cara main |
 | --- | --- |
-| 💌 **Seberapa Kenal Kamu?** | 6 ronde. Tiap ronde kamu menjawab pertanyaan tentang dirimu sendiri **dan** menebak jawaban pasangan. Tebakan benar = 1 poin. |
-| 🎲 **Truth or Dare Couple** | Giliran bergantian, pilih Truth atau Dare, lalu tandai selesai atau skip. Dare selesai = 2 poin, truth = 1 poin. |
-| 💓 **Sinkron Hati** | Hati menyala di waktu acak; kalian berdua harus tap sebarengan. Makin kecil selisih tap (ms), makin banyak love point. Curang (tap sebelum menyala) = 0. |
+| 💌 **Sejauh Mana Awak Kenal?** | 6 pusingan. Setiap pusingan awak jawab soalan tentang diri sendiri **dan** teka jawapan pasangan. Tekaan betul = 1 mata. |
+| 🎲 **Truth or Dare Pasangan** | Bergilir-gilir, pilih Truth atau Dare, kemudian tanda selesai atau langkau. Dare selesai = 2 mata, truth = 1 mata. |
+| 💓 **Seirama Hati** | Hati menyala pada masa rawak; awak berdua kena tekan serentak. Makin kecil jarak tekan (ms), makin banyak love point. Menipu (tekan sebelum menyala) = 0. |
 
-Plus chat realtime di dalam room dan love point bersama.
+Ada juga chat realtime dalam bilik dan love point bersama.
 
-## Menjalankan Secara Lokal
+## Menjalankan Secara Setempat
 
 ```bash
 cd couple-game
 npm install
-npm start          # default http://localhost:3000
+npm start          # lalai http://localhost:3000
 PORT=8080 npm start
 ```
 
-Buka di HP yang satu jaringan lewat `http://<IP-komputer>:3000`, atau deploy ke
-hosting Node apa pun (Render, Railway, Fly.io, VPS) — cukup `npm install && npm start`,
-server membaca `process.env.PORT`.
+Buka pada telefon dalam rangkaian yang sama melalui `http://<IP-komputer>:3000`, atau
+deploy ke mana-mana hosting Node (Render, Railway, Fly.io, VPS) — cukup
+`npm install && npm start`, pelayan membaca `process.env.PORT`.
 
-## Cara Main Bareng
+## Cara Main Bersama
 
-1. Orang pertama isi nama panggilan → **Buat Room Baru**.
-2. Tekan tombol ⇪ untuk share kode/link ke pasangan (WhatsApp dll).
-3. Pasangan buka link atau isi kode 4 karakter → **Gabung**.
-4. Setelah keduanya masuk, pilih mode dan main. Pilihan mode langsung sinkron di kedua HP.
+1. Orang pertama isi nama panggilan → **Buka Bilik Baharu**.
+2. Tekan butang ⇪ untuk kongsi kod/pautan kepada pasangan (WhatsApp dll).
+3. Pasangan buka pautan atau isi kod 4 aksara → **Masuk**.
+4. Selepas kedua-duanya masuk, pilih mod dan main. Pilihan mod terus selari pada kedua-dua telefon.
 
-## Arsitektur
+## Seni Bina
 
 ```
 couple-game/
-├── server.js          # Express + Socket.IO, event handler per room
-├── src/rooms.js       # RoomStore: state room, aturan tiap mode, masking state per pemain
-├── src/content.js     # bank pertanyaan kuis, kartu truth & dare, avatar
-└── public/            # klien statis (mobile-first, tanpa framework)
+├── server.js          # Express + Socket.IO, pengendali event bagi setiap bilik
+├── src/rooms.js       # RoomStore: state bilik, peraturan setiap mod, masking state per pemain
+├── src/content.js     # bank soalan kuiz, kad truth & dare, avatar
+└── public/            # klien statik (mobile-first, tanpa framework)
     ├── index.html
     ├── styles.css
     └── app.js
 ```
 
-- State disimpan **in-memory** per room (`Map` kode → room), maksimal 2 pemain aktif.
-- Tiap pemain menerima state yang sudah di-masking: jawaban pasangan disembunyikan
-  sampai fase reveal.
-- Reconnect otomatis: kalau koneksi HP terputus, masuk lagi dengan nama yang sama
-  akan melanjutkan slot pemain yang lama.
-- Room dibersihkan otomatis (idle > 6 jam, atau kosong > 30 menit).
+- State disimpan **in-memory** bagi setiap bilik (`Map` kod → bilik), maksimum 2 pemain aktif.
+- Setiap pemain menerima state yang sudah di-mask: jawapan pasangan disembunyikan
+  sampai fasa reveal.
+- Sambung semula automatik: kalau sambungan telefon terputus, masuk semula dengan nama
+  yang sama akan menyambung slot pemain yang lama.
+- Bilik dibersihkan automatik (idle > 6 jam, atau kosong > 30 minit).
 
 ## Lint
 

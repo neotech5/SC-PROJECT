@@ -58,7 +58,7 @@
   el('btn-create').addEventListener('click', function () {
     homeError('');
     socket.emit('room:create', { name: currentName() }, function (res) {
-      if (!res || !res.ok) return homeError((res && res.error) || 'Gagal membuat room.');
+      if (!res || !res.ok) return homeError((res && res.error) || 'Gagal membuka bilik.');
       history.replaceState(null, '', '?room=' + res.code);
       showRoom();
       return null;
@@ -67,10 +67,10 @@
 
   el('btn-join').addEventListener('click', function () {
     var code = el('code').value.trim().toUpperCase();
-    if (code.length < 4) return homeError('Kode room 4 karakter ya.');
+    if (code.length < 4) return homeError('Kod bilik mesti 4 aksara.');
     homeError('');
     socket.emit('room:join', { code: code, name: currentName() }, function (res) {
-      if (!res || !res.ok) return homeError((res && res.error) || 'Gagal gabung room.');
+      if (!res || !res.ok) return homeError((res && res.error) || 'Gagal masuk bilik.');
       history.replaceState(null, '', '?room=' + res.code);
       showRoom();
       return null;
@@ -91,13 +91,13 @@
   el('btn-share').addEventListener('click', function () {
     if (!state) return;
     var url = location.origin + '/?room=' + state.code;
-    var text = 'Ayo main LoveLink bareng aku 💞 Kode room: ' + state.code + '\n' + url;
+    var text = 'Jom main LoveLink dengan saya 💞 Kod bilik: ' + state.code + '\n' + url;
     if (navigator.share) {
       navigator.share({ title: 'LoveLink', text: text, url: url }).catch(function () {});
     } else if (navigator.clipboard) {
-      navigator.clipboard.writeText(text).then(function () { toast('Link room dicopy!'); });
+      navigator.clipboard.writeText(text).then(function () { toast('Pautan bilik telah disalin!'); });
     } else {
-      toast('Kode room: ' + state.code);
+      toast('Kod bilik: ' + state.code);
     }
   });
 
@@ -117,16 +117,16 @@
   /* ------------------------------- rendering ------------------------------ */
 
   function renderPlayers() {
-    var you = state.you || { avatar: '🐻', name: 'Kamu', score: 0 };
+    var you = state.you || { avatar: '🐻', name: 'Awak', score: 0 };
     var partner = state.partner;
     var youNode = el('player-you');
     youNode.querySelector('.avatar').textContent = you.avatar;
-    youNode.querySelector('.pname').textContent = you.name + ' (kamu)';
+    youNode.querySelector('.pname').textContent = you.name + ' (awak)';
     youNode.querySelector('.pscore').textContent = you.score;
 
     var partnerNode = el('player-partner');
     partnerNode.querySelector('.avatar').textContent = partner ? partner.avatar : '❓';
-    partnerNode.querySelector('.pname').textContent = partner ? partner.name : 'Menunggu…';
+    partnerNode.querySelector('.pname').textContent = partner ? partner.name : 'Menanti…';
     partnerNode.querySelector('.pscore').textContent = partner ? partner.score : 0;
     partnerNode.classList.toggle('offline', !(partner && partner.connected));
 
@@ -141,7 +141,7 @@
   function renderChat() {
     var log = el('chat-log');
     if (!state.chat.length) {
-      log.innerHTML = '<div class="empty">Belum ada pesan. Sapa pasangan kamu 💌</div>';
+      log.innerHTML = '<div class="empty">Belum ada pesanan. Sapa pasangan awak 💌</div>';
     } else {
       log.innerHTML = state.chat.map(function (m) {
         return '<div class="msg"><b>' + esc(m.avatar + ' ' + m.from) + ':</b> ' + esc(m.text) + '</div>';
@@ -157,21 +157,21 @@
   function waitingPanel() {
     var url = location.origin + '/?room=' + state.code;
     return '<div class="panel center">'
-      + '<h2>Menunggu pasangan 💌</h2>'
-      + '<p>Kirim kode <b>' + esc(state.code) + '</b> ke pasangan kamu, atau bagikan link ini:</p>'
+      + '<h2>Menanti pasangan 💌</h2>'
+      + '<p>Hantar kod <b>' + esc(state.code) + '</b> kepada pasangan awak, atau kongsi pautan ini:</p>'
       + '<p style="word-break:break-all"><b>' + esc(url) + '</b></p>'
-      + '<p class="waiting-dots">Game mulai otomatis setelah dia gabung</p>'
+      + '<p class="waiting-dots">Permainan bermula sebaik dia masuk</p>'
       + '</div>';
   }
 
   function menuPanel() {
-    return '<div class="panel"><h2>Mau main apa? 💘</h2><p>Pilih mode, pasangan kamu ikut otomatis.</p></div>'
+    return '<div class="panel"><h2>Nak main apa? 💘</h2><p>Pilih mod, pasangan awak ikut secara automatik.</p></div>'
       + '<button class="mode-card" data-mode="quiz"><span class="emoji">💌</span><span>'
-      + '<b>Seberapa Kenal Kamu?</b><small>Jawab tentang dirimu, tebak jawaban dia. 6 ronde.</small></span></button>'
+      + '<b>Sejauh Mana Awak Kenal?</b><small>Jawab tentang diri awak, teka jawapan dia. 6 pusingan.</small></span></button>'
       + '<button class="mode-card" data-mode="td"><span class="emoji">🎲</span><span>'
-      + '<b>Truth or Dare Couple</b><small>Giliran tarik kartu truth atau dare.</small></span></button>'
+      + '<b>Truth or Dare Pasangan</b><small>Bergilir cabut kad truth atau dare.</small></span></button>'
       + '<button class="mode-card" data-mode="sync"><span class="emoji">💓</span><span>'
-      + '<b>Sinkron Hati</b><small>Tap hati sebarengan. Makin kompak, makin banyak love point.</small></span></button>';
+      + '<b>Seirama Hati</b><small>Tekan hati serentak. Makin serentak, makin banyak love point.</small></span></button>';
   }
 
   function quizPanel() {
@@ -180,134 +180,134 @@
       var you = state.you;
       var partner = state.partner || { name: 'Pasangan', score: 0 };
       var total = you.score + partner.score;
-      var verdict = total >= 10 ? 'Kalian saling kenal banget! 💞'
-        : total >= 6 ? 'Lumayan kompak, masih bisa lebih dekat 💗'
-          : 'Waktunya PDKT ulang, ngobrol lebih banyak ya 😄';
-      return '<div class="panel center"><h2>Hasil Akhir</h2>'
-        + '<p class="gap-result">' + total + '/' + (q.total * 2) + '<small>tebakan benar berdua</small></p>'
+      var verdict = total >= 10 ? 'Awak berdua memang saling kenal! 💞'
+        : total >= 6 ? 'Boleh tahan, masih boleh lebih rapat 💗'
+          : 'Masa untuk berkenalan semula, banyakkan berbual 😄';
+      return '<div class="panel center"><h2>Keputusan Akhir</h2>'
+        + '<p class="gap-result">' + total + '/' + (q.total * 2) + '<small>tekaan betul berdua</small></p>'
         + '<p>' + esc(you.name) + ': <b>' + you.score + '</b> &nbsp;•&nbsp; ' + esc(partner.name) + ': <b>' + partner.score + '</b></p>'
         + '<p>' + verdict + '</p>'
         + '<button class="btn primary" data-action="mode-quiz">Main Lagi</button>'
-        + '<button class="btn ghost" data-action="menu">Ganti Mode</button></div>';
+        + '<button class="btn ghost" data-action="menu">Tukar Mod</button></div>';
     }
 
     if (q.phase === 'reveal') {
       var rows = (q.result ? q.result.detail : []).map(function (d) {
         return '<div class="reveal-row ' + (d.correct ? 'correct' : 'wrong') + '">'
           + '<span>' + esc(d.avatar) + '</span><span>'
-          + '<span class="who">' + esc(d.name) + (d.correct ? ' menebak benar 🎉' : ' salah tebak 🙈') + '</span>'
-          + '<span class="detail">Tebakan: <b>' + esc(d.guess) + '</b> · Jawaban asli pasangan: <b>' + esc(d.partnerSelf) + '</b></span>'
+          + '<span class="who">' + esc(d.name) + (d.correct ? ' teka betul 🎉' : ' salah teka 🙈') + '</span>'
+          + '<span class="detail">Tekaan: <b>' + esc(d.guess) + '</b> · Jawapan sebenar pasangan: <b>' + esc(d.partnerSelf) + '</b></span>'
           + '</span></div>';
       }).join('');
-      return '<div class="panel"><div class="progress">RONDE ' + q.round + '/' + q.total + '</div>'
+      return '<div class="panel"><div class="progress">PUSINGAN ' + q.round + '/' + q.total + '</div>'
         + '<div class="question">' + esc(q.result ? q.result.question : '') + '</div>'
         + rows
-        + (q.result && q.result.bothCorrect ? '<p class="pill ok">Kompak! +2 love</p>' : '')
-        + '<button class="btn primary" data-action="quiz-next">' + (q.round >= q.total ? 'Lihat Hasil' : 'Ronde Berikutnya') + '</button>'
+        + (q.result && q.result.bothCorrect ? '<p class="pill ok">Sefahaman! +2 love</p>' : '')
+        + '<button class="btn primary" data-action="quiz-next">' + (q.round >= q.total ? 'Lihat Keputusan' : 'Pusingan Seterusnya') + '</button>'
         + '</div>';
     }
 
     if (q.submitted) {
-      return '<div class="panel center"><h2>Jawaban terkirim ✔</h2>'
-        + '<p class="waiting-dots">Nunggu ' + esc(state.partner ? state.partner.name : 'pasangan') + ' selesai jawab</p>'
-        + '<p>Ronde ' + q.round + '/' + q.total + '</p></div>';
+      return '<div class="panel center"><h2>Jawapan dihantar ✔</h2>'
+        + '<p class="waiting-dots">Menanti ' + esc(state.partner ? state.partner.name : 'pasangan') + ' selesai menjawab</p>'
+        + '<p>Pusingan ' + q.round + '/' + q.total + '</p></div>';
     }
 
     var step = quizDraft.step;
     var prompt = step === 'self'
-      ? 'Jawab jujur tentang <b>diri kamu</b>'
-      : 'Sekarang tebak jawaban <b>' + esc(state.partner ? state.partner.name : 'pasangan') + '</b>';
+      ? 'Jawab dengan jujur tentang <b>diri awak</b>'
+      : 'Sekarang teka jawapan <b>' + esc(state.partner ? state.partner.name : 'pasangan') + '</b>';
     var chosen = step === 'self' ? quizDraft.self : quizDraft.guess;
     var options = q.question.options.map(function (opt) {
       return '<button class="option' + (chosen === opt ? ' selected' : '') + '" data-option="' + esc(opt) + '">' + esc(opt) + '</button>';
     }).join('');
 
     return '<div class="panel">'
-      + '<div class="progress">RONDE ' + q.round + '/' + q.total + '</div>'
+      + '<div class="progress">PUSINGAN ' + q.round + '/' + q.total + '</div>'
       + '<div class="question">' + esc(q.question.q) + '</div>'
       + '<div class="step-label">' + prompt + '</div>'
       + '<div class="options">' + options + '</div>'
       + (step === 'self'
-        ? '<button class="btn primary" data-action="quiz-step-guess"' + (quizDraft.self ? '' : ' disabled') + '>Lanjut Tebak Dia</button>'
-        : '<div class="btn-pair"><button class="btn ghost" data-action="quiz-step-self">‹ Ubah Jawabanku</button>'
-          + '<button class="btn primary" data-action="quiz-submit"' + (quizDraft.guess ? '' : ' disabled') + '>Kirim</button></div>')
-      + (q.partnerSubmitted ? '<p class="pill">Pasangan sudah jawab</p>' : '')
+        ? '<button class="btn primary" data-action="quiz-step-guess"' + (quizDraft.self ? '' : ' disabled') + '>Teruskan Teka Dia</button>'
+        : '<div class="btn-pair"><button class="btn ghost" data-action="quiz-step-self">‹ Ubah Jawapan Saya</button>'
+          + '<button class="btn primary" data-action="quiz-submit"' + (quizDraft.guess ? '' : ' disabled') + '>Hantar</button></div>')
+      + (q.partnerSubmitted ? '<p class="pill">Pasangan sudah menjawab</p>' : '')
       + '</div>';
   }
 
   function tdPanel() {
     var td = state.td;
     var history = td.history.length
-      ? '<div class="panel"><h2>Riwayat</h2><ul class="history">' + td.history.map(function (h) {
-        return '<li><b>' + esc(h.name) + '</b> · ' + esc(h.type) + ' · ' + (h.completed ? 'selesai ✅' : 'skip ❌') + '<br>' + esc(h.card) + '</li>';
+      ? '<div class="panel"><h2>Rekod</h2><ul class="history">' + td.history.map(function (h) {
+        return '<li><b>' + esc(h.name) + '</b> · ' + esc(h.type) + ' · ' + (h.completed ? 'selesai ✅' : 'langkau ❌') + '<br>' + esc(h.card) + '</li>';
       }).join('') + '</ul></div>'
       : '';
 
     if (td.phase === 'pick') {
       var body = td.yourTurn
-        ? '<h2>Giliran kamu 🎲</h2><p>Pilih kartu kamu.</p>'
+        ? '<h2>Giliran awak 🎲</h2><p>Pilih kad awak.</p>'
           + '<div class="btn-pair"><button class="btn primary" data-action="td-truth">Truth</button>'
           + '<button class="btn ghost" data-action="td-dare">Dare</button></div>'
-        : '<h2>Giliran ' + esc(td.turnName) + '</h2><p class="waiting-dots">Dia sedang milih truth atau dare</p>';
+        : '<h2>Giliran ' + esc(td.turnName) + '</h2><p class="waiting-dots">Dia sedang memilih truth atau dare</p>';
       return '<div class="panel center">' + body + '</div>' + history;
     }
 
     var card = '<div class="card-td"><span class="kind">' + (td.type === 'dare' ? 'DARE' : 'TRUTH') + '</span>' + esc(td.card) + '</div>';
     if (td.yourTurn) {
       return '<div class="panel">' + card
-        + '<div class="btn-pair"><button class="btn primary" data-action="td-done">Sudah Dilakukan</button>'
-        + '<button class="btn ghost" data-action="td-skip">Skip</button></div></div>' + history;
+        + '<div class="btn-pair"><button class="btn primary" data-action="td-done">Sudah Dibuat</button>'
+        + '<button class="btn ghost" data-action="td-skip">Langkau</button></div></div>' + history;
     }
-    return '<div class="panel">' + card + '<p class="center waiting-dots">Menunggu ' + esc(td.turnName) + ' menyelesaikan</p></div>' + history;
+    return '<div class="panel">' + card + '<p class="center waiting-dots">Menanti ' + esc(td.turnName) + ' menyelesaikannya</p></div>' + history;
   }
 
   function syncPanel() {
     var s = state.sync;
 
     if (s.phase === 'done') {
-      var verdict = s.totalPoints >= 11 ? 'Sehati banget! 💞' : s.totalPoints >= 6 ? 'Cukup kompak 💗' : 'Perlu latihan bareng lagi 😅';
-      return '<div class="panel center"><h2>Sinkron Hati selesai</h2>'
-        + '<p class="gap-result">' + s.totalPoints + '<small>dari maksimal ' + (s.total * 3) + ' poin</small></p>'
+      var verdict = s.totalPoints >= 11 ? 'Memang seirama! 💞' : s.totalPoints >= 6 ? 'Cukup serentak 💗' : 'Perlu berlatih bersama lagi 😅';
+      return '<div class="panel center"><h2>Seirama Hati tamat</h2>'
+        + '<p class="gap-result">' + s.totalPoints + '<small>daripada maksimum ' + (s.total * 3) + ' mata</small></p>'
         + '<p>' + verdict + '</p>'
         + '<ul class="history">' + s.results.map(function (r) {
-          return '<li>Ronde ' + r.round + ': ' + (r.gap == null ? 'gagal' : 'selisih ' + r.gap + ' ms') + ' · +' + r.points + '</li>';
+          return '<li>Pusingan ' + r.round + ': ' + (r.gap == null ? 'gagal' : 'jarak ' + r.gap + ' ms') + ' · +' + r.points + '</li>';
         }).join('') + '</ul>'
         + '<button class="btn primary" data-action="mode-sync">Main Lagi</button>'
-        + '<button class="btn ghost" data-action="menu">Ganti Mode</button></div>';
+        + '<button class="btn ghost" data-action="menu">Tukar Mod</button></div>';
     }
 
     if (s.phase === 'result') {
       var r = s.last || {};
-      var headline = r.falseStart ? 'Kecepetan! 😬' : r.missing ? 'Ada yang nggak tap 😴'
-        : r.gap <= 150 ? 'Sehati! 💞' : r.gap <= 400 ? 'Hampir bareng 💗' : r.gap <= 800 ? 'Beda tipis ✨' : 'Beda jauh 😅';
-      return '<div class="panel center"><div class="progress">RONDE ' + r.round + '/' + s.total + '</div>'
+      var headline = r.falseStart ? 'Terlalu awal! 😬' : r.missing ? 'Ada yang tak tekan 😴'
+        : r.gap <= 150 ? 'Seirama! 💞' : r.gap <= 400 ? 'Hampir serentak 💗' : r.gap <= 800 ? 'Beza sedikit ✨' : 'Beza jauh 😅';
+      return '<div class="panel center"><div class="progress">PUSINGAN ' + r.round + '/' + s.total + '</div>'
         + '<h2>' + headline + '</h2>'
-        + '<p class="gap-result">' + (r.gap == null ? '—' : r.gap + ' ms') + '<small>selisih tap · +' + r.points + ' love point</small></p>'
+        + '<p class="gap-result">' + (r.gap == null ? '—' : r.gap + ' ms') + '<small>jarak tekan · +' + r.points + ' love point</small></p>'
         + (r.taps || []).map(function (t) {
-          return '<p>' + esc(t.avatar + ' ' + t.name) + ': ' + (t.reaction == null ? 'tidak tap' : t.reaction + ' ms') + '</p>';
+          return '<p>' + esc(t.avatar + ' ' + t.name) + ': ' + (t.reaction == null ? 'tidak tekan' : t.reaction + ' ms') + '</p>';
         }).join('')
-        + '<button class="btn primary" data-action="sync-next">Ronde Berikutnya</button></div>';
+        + '<button class="btn primary" data-action="sync-next">Pusingan Seterusnya</button></div>';
     }
 
     if (s.phase === 'countdown') {
       var remaining = s.goAt - (Date.now() + clockOffset);
       var go = remaining <= 0;
-      return '<div class="panel center"><div class="progress">RONDE ' + s.round + '/' + s.total + '</div>'
-        + '<h2>' + (go ? 'TAP SEKARANG!' : 'Siap-siap…') + '</h2>'
-        + '<p>' + (go ? 'Tap hati bareng pasangan kamu.' : 'Jangan tap sebelum hati menyala, nanti dianggap curang.') + '</p>'
+      return '<div class="panel center"><div class="progress">PUSINGAN ' + s.round + '/' + s.total + '</div>'
+        + '<h2>' + (go ? 'TEKAN SEKARANG!' : 'Bersedia…') + '</h2>'
+        + '<p>' + (go ? 'Tekan hati serentak dengan pasangan awak.' : 'Jangan tekan sebelum hati menyala, nanti dikira menipu.') + '</p>'
         + '<button class="heart-btn ' + (go ? 'go' : 'waiting') + '" data-action="sync-tap"' + (s.tapped ? ' disabled' : '') + '>'
         + (s.tapped ? '✔' : go ? '💗' : '🖤') + '</button>'
-        + (s.tapped ? '<p class="waiting-dots">Nunggu pasangan tap</p>' : '')
+        + (s.tapped ? '<p class="waiting-dots">Menanti pasangan menekan</p>' : '')
         + '</div>';
     }
 
-    return '<div class="panel center"><div class="progress">RONDE ' + s.round + '/' + s.total + '</div>'
-      + '<h2>Sinkron Hati 💓</h2>'
-      + '<p>Hati akan menyala setelah beberapa saat. Tap secepat dan sebarengan mungkin!</p>'
+    return '<div class="panel center"><div class="progress">PUSINGAN ' + s.round + '/' + s.total + '</div>'
+      + '<h2>Seirama Hati 💓</h2>'
+      + '<p>Hati akan menyala selepas beberapa saat. Tekan secepat dan seserentak mungkin!</p>'
       + '<button class="btn ' + (state.you && state.you.ready ? 'ghost' : 'primary') + '" data-action="sync-ready">'
-      + (state.you && state.you.ready ? 'Siap ✔ (batalkan)' : 'Aku Siap') + '</button>'
+      + (state.you && state.you.ready ? 'Sedia ✔ (batalkan)' : 'Saya Sedia') + '</button>'
       + '<p>' + esc(state.partner ? state.partner.name : 'Pasangan') + ': '
-      + (state.partner && state.partner.ready ? 'siap ✔' : 'belum siap') + '</p></div>';
+      + (state.partner && state.partner.ready ? 'sedia ✔' : 'belum sedia') + '</p></div>';
   }
 
   function renderStage() {
@@ -334,7 +334,7 @@
           clearInterval(countdownTimer);
           countdownTimer = null;
           var title = stage.querySelector('h2');
-          if (title) title.textContent = 'TAP SEKARANG!';
+          if (title) title.textContent = 'TEKAN SEKARANG!';
         }
       }, 60);
     }
@@ -401,7 +401,7 @@
     if (payload && payload.text) toast(payload.text);
   });
 
-  socket.on('disconnect', function () { toast('Koneksi terputus, mencoba menyambung…'); });
+  socket.on('disconnect', function () { toast('Sambungan terputus, mencuba menyambung semula…'); });
   socket.on('connect', function () {
     if (state) socket.emit('room:join', { code: state.code, name: currentName() }, function () {});
   });

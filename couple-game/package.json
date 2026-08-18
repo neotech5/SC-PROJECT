@@ -1,7 +1,7 @@
 {
   "name": "lovelink-couple-game",
   "version": "1.0.0",
-  "description": "Game multiplayer online untuk pasangan couple, jalan di browser HP",
+  "description": "Permainan multiplayer online untuk pasangan, berjalan dalam pelayar telefon",
   "main": "server.js",
   "type": "commonjs",
   "engines": {

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="ms">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#ff5f8f" />
-  <title>LoveLink — Game Couple Online</title>
+  <title>LoveLink — Permainan Pasangan Online</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💞</text></svg>" />
   <link rel="stylesheet" href="styles.css" />
 </head>
@@ -16,29 +16,29 @@
     <div class="hero">
       <div class="hero-emoji">💞</div>
       <h1>LoveLink</h1>
-      <p class="tagline">Game online buat kamu &amp; pasangan. Cukup 1 kode room, main bareng dari HP masing-masing.</p>
+      <p class="tagline">Permainan online untuk awak &amp; pasangan. Cukup satu kod bilik, main bersama dari telefon masing-masing.</p>
     </div>
 
     <div class="card">
-      <label for="name">Nama panggilan kamu</label>
-      <input id="name" type="text" maxlength="16" placeholder="mis. Sayang" autocomplete="nickname" />
+      <label for="name">Nama panggilan awak</label>
+      <input id="name" type="text" maxlength="16" placeholder="cth. Sayang" autocomplete="nickname" />
 
-      <button id="btn-create" class="btn primary">Buat Room Baru</button>
+      <button id="btn-create" class="btn primary">Buka Bilik Baharu</button>
 
       <div class="divider"><span>atau</span></div>
 
-      <label for="code">Punya kode dari pasangan?</label>
+      <label for="code">Ada kod daripada pasangan?</label>
       <div class="row">
-        <input id="code" type="text" maxlength="4" placeholder="KODE" autocapitalize="characters" inputmode="text" />
-        <button id="btn-join" class="btn ghost">Gabung</button>
+        <input id="code" type="text" maxlength="4" placeholder="KOD" autocapitalize="characters" inputmode="text" />
+        <button id="btn-join" class="btn ghost">Masuk</button>
       </div>
       <p id="home-error" class="error" hidden></p>
     </div>
 
     <ul class="features">
-      <li>💌 <b>Seberapa Kenal Kamu?</b> tebak jawaban pasangan</li>
-      <li>🎲 <b>Truth or Dare</b> versi couple</li>
-      <li>💓 <b>Sinkron Hati</b> tap bareng, uji kekompakan</li>
+      <li>💌 <b>Sejauh Mana Awak Kenal?</b> teka jawapan pasangan</li>
+      <li>🎲 <b>Truth or Dare</b> versi pasangan</li>
+      <li>💓 <b>Seirama Hati</b> tekan serentak, uji kesefahaman</li>
     </ul>
   </section>
 
@@ -47,16 +47,16 @@
     <header class="topbar">
       <button id="btn-back" class="icon-btn" title="Kembali ke menu">‹</button>
       <div class="room-code">
-        <span class="label">KODE ROOM</span>
+        <span class="label">KOD BILIK</span>
         <strong id="room-code">----</strong>
       </div>
-      <button id="btn-share" class="icon-btn" title="Bagikan kode">⇪</button>
+      <button id="btn-share" class="icon-btn" title="Kongsi kod">⇪</button>
     </header>
 
     <div class="players">
-      <div class="player" id="player-you"><span class="avatar">🐻</span><span class="pname">Kamu</span><span class="pscore">0</span></div>
+      <div class="player" id="player-you"><span class="avatar">🐻</span><span class="pname">Awak</span><span class="pscore">0</span></div>
       <div class="love-meter"><span id="love-count">0</span><small>love point</small></div>
-      <div class="player" id="player-partner"><span class="avatar">❓</span><span class="pname">Menunggu…</span><span class="pscore">0</span></div>
+      <div class="player" id="player-partner"><span class="avatar">❓</span><span class="pname">Menanti…</span><span class="pscore">0</span></div>
     </div>
 
     <main id="stage"></main>
@@ -66,8 +66,8 @@
       <div class="chat-body">
         <div id="chat-log" class="chat-log"></div>
         <form id="chat-form" class="chat-form">
-          <input id="chat-input" type="text" maxlength="300" placeholder="Tulis pesan manis…" autocomplete="off" />
-          <button class="btn primary small" type="submit">Kirim</button>
+          <input id="chat-input" type="text" maxlength="300" placeholder="Tulis pesanan manis…" autocomplete="off" />
+          <button class="btn primary small" type="submit">Hantar</button>
         </form>
       </div>
     </div>

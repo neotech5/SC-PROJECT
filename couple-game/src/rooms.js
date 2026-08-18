@@ -63,7 +63,7 @@ class RoomStore {
 
   joinRoom(code, { id, name }) {
     const room = this.getRoom(code);
-    if (!room) return { error: 'Kode room tidak ditemukan.' };
+    if (!room) return { error: 'Kod bilik tidak dijumpai.' };
 
     const existing = room.players.find((p) => p.name.toLowerCase() === name.toLowerCase() && !p.connected);
     if (existing) {
@@ -74,7 +74,7 @@ class RoomStore {
     }
 
     const active = room.players.filter((p) => p.connected);
-    if (active.length >= MAX_PLAYERS) return { error: 'Room sudah penuh (maksimal 2 orang).' };
+    if (active.length >= MAX_PLAYERS) return { error: 'Bilik sudah penuh (maksimum 2 orang).' };
 
     const player = {
       id,
